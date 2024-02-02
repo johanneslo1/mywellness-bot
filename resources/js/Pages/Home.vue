@@ -2,7 +2,7 @@
     <div class="bg-gray-200 h-screen flex items-center">
         <div class="max-w-4xl mx-auto">
 
-            <h1 class="text-2xl md:text-6xl font-semibold">
+            <h1 class="text-4xl md:text-6xl font-semibold">
                 <a href="https://mywellness.de/" target="_blank">MyWellness</a> Bot</h1>
 
             <p class="mt-3">Erhalte Benachrichtigungen, wenn andere Gäste ihre Buchung stornieren und für dich damit ein
