@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
+use Illuminate\Support\Facades\Session;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -43,6 +44,17 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'errors' => function () {
+                return session('errors')
+                    ? Session::get('errors')->getBag('default')->getMessages()
+                    : null;
+            },
+            'flash' => Session::exists('success') || Session::exists('error') ? function () {
+                return [
+                    'success' => Session::get('success'),
+                    'error' => Session::get('error'),
+                ];
+            } : null,
         ]);
     }
 }

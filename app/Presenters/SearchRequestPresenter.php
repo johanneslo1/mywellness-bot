@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Models\SearchRequest;
+use App\Repositories\MyWellnessRepository;
 use AdditionApps\FlexiblePresenter\FlexiblePresenter;
 
 /**
@@ -17,7 +18,34 @@ class SearchRequestPresenter extends FlexiblePresenter
             'last_check_at' => $this->resource->last_check_at?->toDateTimeString(),
             'email' => $this->resource->email,
             'active' => $this->resource->active,
-            'params' => $this->resource->params,
+            'filters' => function () {
+
+                $myWellness = app(MyWellnessRepository::class);
+
+                $filters = collect($myWellness->getAvailableFilters());
+
+
+               return collect($this->resource->params)
+                   ->map(function ($value, $key) use ($filters) {
+                    $filter = $filters->where('name', $key)->first();
+
+
+                    $option = $filter && array_key_exists('options', $filter)
+                        ? collect($filter['options'])
+                        ->where('value', $value)
+                        ->first()
+                        : null;
+
+
+                    return [
+                        'title' => optional($filter)['title'],
+                        'value' => $option
+                            ? $option['title']
+                            : $value
+                    ];
+                })->values();
+
+            },
         ];
     }
 }

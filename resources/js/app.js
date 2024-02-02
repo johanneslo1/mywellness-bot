@@ -9,6 +9,7 @@ import PrimeVue from 'primevue/config';
 import '../css/index.css';
 import 'primevue/resources/themes/lara-light-teal/theme.css'
 import 'primeicons/primeicons.css'
+import ToastService from 'primevue/toastservice';
 
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
@@ -21,6 +22,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(PrimeVue)
+            .use(ToastService)
             .mixin({
                 methods: {
                     dayjs,
@@ -31,3 +33,4 @@ createInertiaApp({
 });
 
 InertiaProgress.init({color: '#4B5563'});
+
