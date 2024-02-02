@@ -90,6 +90,7 @@ class SearchRequestController extends Controller
 
     private function stepTwo(Request $request, MyWellnessRepository $myWellnessRepository)
     {
+        dd($request->all());
         $filters = $myWellnessRepository->getAvailableFilters();
 
         $validationRules = [];
@@ -115,6 +116,22 @@ class SearchRequestController extends Controller
             ->signedRoute('search-requests.show', $searchRequest->id)
             ->with('success', true);
 
+    }
+
+    public function destroyByEmail(Request $request) {
+
+        if(!$request->has('email')) {
+          return inertia('Unsubscribe', [
+              'email' => session()->get('success'),
+          ]);
+        }
+
+        SearchRequest::where('email', $request->email)->delete();
+
+
+        return redirect()
+            ->route('unsubscribe')
+            ->with('success', $request->email);
     }
 
 }

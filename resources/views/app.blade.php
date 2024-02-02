@@ -22,13 +22,20 @@
                     data-website-id="21e8ab08-d533-421b-8950-fbe89e9dd360"></script>
         @endif
     @endproduction
-    </head>
-    <body class="font-sans antialiased">
+</head>
+<body class="font-sans antialiased">
 
-    <div class="text-center w-full fixed top-0 py-2 bg-yellow-300">
-        Diese Seite ist ein Open-Source-Projekt und steht in keiner Verbindung zu <a href="https://mywellness.de/" target="_blank" class="text-yellow-900 underline">MyWellness.de</a>.
+<div class="text-center w-full fixed top-0 py-2 bg-yellow-300">
+    Diese Seite ist ein Open-Source-Projekt und steht in keiner Verbindung zu <a href="https://mywellness.de/"
+                                                                                 class="text-yellow-900 underline">MyWellness.de</a>.
+</div>
+
+@inertia
+
+@if(\Illuminate\Support\Str::contains(request()->getHost(), 'johannes-lohmann.de'))
+    <div class="text-center w-full fixed bottom-0 py-2">
+        <a href="https://johannes-lohmann.de/imprint" class="hover:underline" target="_blank">Impressum</a>
     </div>
-
-        @inertia
-    </body>
+@endif
+</body>
 </html>

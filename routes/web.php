@@ -22,5 +22,6 @@ Route::get('/start', [\App\Http\Controllers\HomeController::class, 'showConfigur
 Route::post('start', [SearchRequestController::class, 'start']);
 Route::get('search-requests/{id}', [SearchRequestController::class, 'show'])->name('search-requests.show')->middleware('signed');
 Route::post('search-requests/{id}/toggle', [SearchRequestController::class, 'toggleSearchRequest']);
+Route::get('unsubscribe', [SearchRequestController::class, 'destroyByEmail'])->name('unsubscribe')->middleware('throttle:5,1');
 
 //require __DIR__.'/auth.php';
