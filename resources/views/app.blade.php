@@ -17,7 +17,7 @@
     @inertiaHead
 
     @production
-        @if(\Illuminate\Support\Str::contains('johannes-lohmann.de', request()->getHost()))
+        @if(\Illuminate\Support\Str::contains(request()->getHost(), 'johannes-lohmann.de'))
             <script async src="https://logic-lemon.technikclou.com/script.js"
                     data-website-id="21e8ab08-d533-421b-8950-fbe89e9dd360"></script>
         @endif
