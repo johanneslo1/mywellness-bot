@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use App\Models\SearchRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -18,7 +20,7 @@ class SearchRequestWasSuccessfulNotification extends Notification
      *
      * @return void
      */
-    public function __construct(protected $daysInCommingWeek)
+    public function __construct(protected SearchRequest $searchRequest, protected Collection $daysInCommingWeek)
     {
         //
     }
@@ -27,7 +29,7 @@ class SearchRequestWasSuccessfulNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['telegram'];
+        return ['mail']; // 'telegram'
     }
 
     public function toTelegram($notifiable): TelegramMessage
@@ -56,6 +58,7 @@ class SearchRequestWasSuccessfulNotification extends Notification
             ->subject('Ein Tag für deine Auszeit ist gefunden!')
             ->markdown('emails.search-request-was-successful', [
                 'daysInCommingWeek' => $this->daysInCommingWeek,
+                'searchRequest' => $this->searchRequest
             ]);
     }
 

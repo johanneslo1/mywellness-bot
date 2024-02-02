@@ -32,14 +32,14 @@ class CheckSearchRequestsCommand extends Command
     public function handle(MyWellnessRepository $myWellnessRepository)
     {
         SearchRequest::query()
-            ->where(fn(Builder $query) => $query
-                ->whereDate('last_check_at', '<', now()->subHour())
-                ->orWhereNull('last_check_at')
-            )
-            ->where(fn(Builder $query) => $query
-                ->whereDate('ends_at', '>', now())
-                ->orWhereNull('ends_at')
-            )
+//            ->where(fn(Builder $query) => $query
+//                ->whereDate('last_check_at', '<', now()->subHour())
+//                ->orWhereNull('last_check_at')
+//            )
+//            ->where(fn(Builder $query) => $query
+//                ->whereDate('ends_at', '>', now())
+//                ->orWhereNull('ends_at')
+//            )
             ->get()
             ->each(function (SearchRequest $searchRequest) use ($myWellnessRepository) {
                 $searchRequest->last_check_at = now();
@@ -51,8 +51,8 @@ class CheckSearchRequestsCommand extends Command
                 // Prüfe ob einer der Tage innerhalb der nächsten Woche liegt.
                 $daysInCommingWeek = $days
                     ->filter(fn($item) => in_array($item['date']->dayOfWeek, $searchRequest->preferred_weekdays))
-                    ->filter(fn($item) => $item['date']->isBetween(now(), now()->addWeeks(2)))
-                        ->filter()
+//                    ->filter(fn($item) => $item['date']->isBetween(now(), now()->addWeeks(2)))
+                    ->filter()
                     ->map(fn($item) => [
                         'date' => $item['date'],
                         'status' => $item['status'],
@@ -61,10 +61,29 @@ class CheckSearchRequestsCommand extends Command
 
 
                 if ($daysInCommingWeek->isNotEmpty()) {
-                    $searchRequest->free_time_slots()->delete();
-                    $searchRequest->free_time_slots()->createMany($daysInCommingWeek->map(fn($item) => ['date' => $item['date'], 'status' => $item['status'], 'url' => $item['url']]));
 
-                    Notification::send($searchRequest, new SearchRequestWasSuccessfulNotification($daysInCommingWeek));
+                    $newlyCreatedDates = collect();
+
+                    foreach ($daysInCommingWeek as $day) {
+                        $existingSearchRequest = $searchRequest->free_time_slots()
+                            ->whereDate('date', $day['date'])
+                            ->first();
+
+                        if (!$existingSearchRequest) {
+                            $timeSlot = $searchRequest->free_time_slots()->create([
+                                'status' => $day['status'],
+                                'date' => $day['date'],
+                                'url' => $day['url'],
+                            ]);
+
+                            $newlyCreatedDates->push($timeSlot);
+
+                        }
+                    }
+
+                    if($newlyCreatedDates->isNotEmpty()) {
+                        Notification::send($searchRequest, new SearchRequestWasSuccessfulNotification($searchRequest, $newlyCreatedDates));
+                    }
                 }
 
                 $searchRequest->save();
