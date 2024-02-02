@@ -26,9 +26,13 @@
 <body class="font-sans antialiased bg-gray-200">
 
 <div class="text-center w-full fixed top-0 py-2 bg-yellow-300">
-    Diese Seite ist ein Open-Source-Projekt und steht in keiner Verbindung zu <a href="https://mywellness.de/"
-                                                                                 class="text-yellow-900 underline">MyWellness.de</a>.
+    Diese Seite ist ein <a href="https://github.com/johanneslo1/mywellness-bot/" class="text-yellow-900 underline" target="_blank">Open-Source-Projekt</a>
+    und steht in keiner Verbindung zu <a href="https://mywellness.de/"
+                                         class="text-yellow-900 underline">MyWellness.de</a>.
 </div>
+
+{{--<a class="fixed top-0 left-2 py-2" href="https://github.com/johanneslo1/mywellness-bot/" target="_blank"><i class="pi pi-github"></i></a>--}}
+{{--<a class="fixed top-0 right-2 py-2" href="https://github.com/johanneslo1/mywellness-bot/" target="_blank"><i class="pi pi-github"></i></a>--}}
 
 <div class="py-12">
     @inertia

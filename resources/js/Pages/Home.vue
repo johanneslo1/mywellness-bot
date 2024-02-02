@@ -5,13 +5,14 @@
             <h1 class="text-4xl md:text-6xl font-semibold">
                 <a href="https://mywellness.de/" target="_blank">MyWellness</a> Bot</h1>
 
+
             <p class="mt-3">Erhalte Benachrichtigungen, wenn andere Gäste ihre Buchung stornieren und für dich damit ein
                 Zeitslot frei wird.</p>
 
 
             <div class="mt-12 rounded bg-gray-100 px-4 py-6">
                 <h3 class="text-xl font-medium">Suchst du vergeblich nach einem freien Slot? Alles ist ausgebucht?</h3>
-            <p class="mt-3">Keine Sorge mehr! Manchmal müssen Gäste ihre Termine kurzfristig absagen, wodurch oft schnell ein Platz frei wird. Mit dem Bot wirst du sofort informiert und kannst den Termin direkt buchen.</p>
+            <p class="mt-3">Keine Sorge mehr! Manchmal müssen Gäste ihre Termine kurzfristig absagen, wodurch oft schnell ein Platz frei wird. Mit dem Bot wirst du sofort informiert und kannst den Slot schnell buchen.</p>
 
             <Link href="/start"
                   data-umami-event="Click start"  class="flex justify-center mt-6">

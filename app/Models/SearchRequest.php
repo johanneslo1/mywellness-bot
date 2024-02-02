@@ -21,6 +21,7 @@ class SearchRequest extends Model
 
     protected $casts = [
         'params' => 'array',
+        'preferred_weekdays' => 'array',
         'telegram_token' => 'encrypted',
 //        'email' => 'encrypted',
         'last_check_at' => 'datetime',
