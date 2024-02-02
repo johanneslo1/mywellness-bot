@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SearchRequest;
 use Illuminate\Support\Facades\URL;
 use App\Presenters\FreeTimeSlotPresenter;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\MyWellnessRepository;
 use App\Presenters\SearchRequestPresenter;
 
@@ -15,17 +16,16 @@ class SearchRequestController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $searchRequest = SearchRequest::with('free_time_slots')->findOrfail($id);
+        $searchRequest = SearchRequest::with(['free_time_slots' => fn ($query) => $query->orderBy('date')])->findOrfail($id);
 
 
         $myWellnessRepository = new MyWellnessRepository();
 
 
 
-
-
         return inertia('SearchRequestDetail', [
             'showSuccessMessage' => (bool) $request->session()->get('success'),
+            'availableFilters' => $myWellnessRepository->getAvailableFilters(),
             'searchRequest' => SearchRequestPresenter::make($searchRequest),
             'freeTimeSlots' => FreeTimeSlotPresenter::collection($searchRequest->free_time_slots)
         ]);
@@ -75,25 +75,19 @@ class SearchRequestController extends Controller
         ]);
 
 
-
-        session()->put('start-form', [
-            'email' => $request->email,
-        ]);
-
-
         return redirect()->route('start', ['step' => 2]);
-
-
     }
 
 
 
     private function stepTwo(Request $request, MyWellnessRepository $myWellnessRepository)
     {
-        dd($request->all());
         $filters = $myWellnessRepository->getAvailableFilters();
 
-        $validationRules = [];
+        $validationRules = [
+            'prefered_weekdays' => ['required', 'array'],
+            'prefered_weekdays.*' => ['required', 'integer', 'min:1', 'max:7'],
+        ];
 
 
         foreach ($filters as $filter) {
@@ -102,6 +96,11 @@ class SearchRequestController extends Controller
             }
         }
 
+        $attributeNames = collect($filters)->mapWithKeys(fn($filter) => ['filters.' . $filter['name'] => $filter['title']])->toArray();
+
+        Validator::make($request->all(), $validationRules)
+            ->setAttributeNames($attributeNames)
+            ->validate();
 
         $request->validate($validationRules);
 

@@ -30,7 +30,7 @@ class SearchRequestPresenter extends FlexiblePresenter
                     $filter = $filters->where('name', $key)->first();
 
 
-                    $option = array_key_exists('options', $filter)
+                    $option = $filter && array_key_exists('options', $filter)
                         ? collect($filter['options'])
                         ->where('value', $value)
                         ->first()

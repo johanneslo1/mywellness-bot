@@ -23,14 +23,16 @@
         @endif
     @endproduction
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-gray-200">
 
 <div class="text-center w-full fixed top-0 py-2 bg-yellow-300">
     Diese Seite ist ein Open-Source-Projekt und steht in keiner Verbindung zu <a href="https://mywellness.de/"
                                                                                  class="text-yellow-900 underline">MyWellness.de</a>.
 </div>
 
-@inertia
+<div class="py-12">
+    @inertia
+</div>
 
 @if(\Illuminate\Support\Str::contains(request()->getHost(), 'johannes-lohmann.de'))
     <div class="text-center w-full fixed bottom-0 py-2">

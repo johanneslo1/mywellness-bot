@@ -22,7 +22,7 @@ class SearchRequest extends Model
     protected $casts = [
         'params' => 'array',
         'telegram_token' => 'encrypted',
-        'email' => 'encrypted',
+//        'email' => 'encrypted',
         'last_check_at' => 'datetime',
     ];
 

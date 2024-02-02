@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import Steps from 'primevue/steps';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
@@ -7,20 +7,13 @@ import InputText from 'primevue/inputtext';
 import {useForm} from "@inertiajs/inertia-vue3";
 import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
-import Calendar from "primevue/calendar";
+import Message from "primevue/message";
 import {Link} from "@inertiajs/inertia-vue3";
 import {useToastWatcher} from "../Uses/UseToastWatcher";
 import Checkbox from 'primevue/checkbox';
+import {Inertia} from "@inertiajs/inertia";
 
 
-const items = ref([
-    {
-        label: 'E-Mail Adresse'
-    },
-    {
-        label: 'Bevorzugte Suite'
-    },
-]);
 
 
 const props = withDefaults(defineProps<{
@@ -30,15 +23,23 @@ const props = withDefaults(defineProps<{
 
 
 const form = useForm({
-    filters: props.availableFilters.reduce((acc, filter) => {
-        acc[filter.name] = null;
-        return acc;
-    }, {}),
-    dates: [],
-    email: ''
+    filters: {
+        ...props.availableFilters.reduce((acc, filter) => {
+            acc[filter.name] = null;
+            return acc;
+        }, {}),
+        date: null
+    },
+    email: '',
+    prefered_weekdays: []
 
 });
 
+onMounted(() =>  {
+    if(props.step === 2 && !form.email) {
+       Inertia.get('/start')
+    }
+})
 
 function submit() {
 
@@ -69,6 +70,16 @@ useToastWatcher();
                         }}
                     </template>
                     <template #content>
+
+                        <Message v-if="$page.props.errors" severity="error">
+
+                        <ul class="list-disc pl-8">
+                            <li v-for="field in $page.props.errors">
+                                {{ field[0] }}
+                            </li>
+                        </ul>
+                        </Message>
+
                         <div v-if="step === 1">
                             <InputText    data-umami-event="Enter email" class="w-full" v-model="form.email" type="email" placeholder="E-Mail Adresse"/>
                         </div>
@@ -81,6 +92,7 @@ useToastWatcher();
 <!--                                </div>-->
 
                                 <div v-for="filter in availableFilters" class="col-span-1">
+                                    <label :for="filter.name">{{ filter.title }}</label>
                                     <template v-if="filter.input_type === 'select'">
                                         <Dropdown v-if="!filter.allow_multiple_values"
                                                   v-model="form.filters[filter.name]" :options="filter.options"
@@ -88,7 +100,7 @@ useToastWatcher();
                                                   data-umami-event="Select filter"
                                                   :data-umami-event-filter-type="filter.name"
                                                   option-value="value" :placeholder="filter.title"
-                                                  class="w-full md:w-14rem"/>
+                                                  class="w-full md:w-14rem mt-1"/>
 
                                         <MultiSelect v-else v-model="form.filters[filter.name]" :options="filter.options"
                                                      optionLabel="title"
@@ -96,9 +108,21 @@ useToastWatcher();
                                                      :placeholder="filter.title"
                                                      data-umami-event="Select filter"
                                                      :data-umami-event-filter-type="filter.name"
-                                                     :maxSelectedLabels="8" class="w-full md:w-14rem"/>
+                                                     :maxSelectedLabels="3" class="w-full md:w-14rem mt-1"/>
                                     </template>
 
+                                </div>
+
+                                <div class="col-span-1">
+                                    <label for="prefered_weekdays">Bevorzugte Wochentage</label>
+                                    <MultiSelect v-model="form.prefered_weekdays"
+                                                 :options="[{'title': 'Montag', 'value': 1}, {'title': 'Dienstag', 'value': 2}, {'title': 'Mittwoch', 'value': 3}, {'title': 'Donnerstag', 'value': 4}, {'title': 'Freitag', 'value': 5}, {'title': 'Samstag', 'value': 6}, {'title': 'Sonntag', 'value': 7}]"
+                                                 placeholder="Bevorzugte Wochentage"
+                                                 optionLabel="title"
+                                                 required
+                                                 option-value="value"
+                                                 id="prefered_weekdays"
+                                                 class="w-full md:w-14rem mt-1"/>
                                 </div>
                             </div>
 

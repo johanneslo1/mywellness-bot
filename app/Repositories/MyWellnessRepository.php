@@ -6,15 +6,21 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\SearchRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class MyWellnessRepository
 {
-    public function getAvailableFilters()
+    public function getAvailableFilters(): array
     {
-        $url = 'https://buchen.mywellness.de/api/customer-app/v1/suite-availability-filters?with_suite_type=null';
+        $filters =  Cache::remember(
+            key: 'availableFilters',
+            ttl: 60 * 60 * 24,
+            callback: fn() => Http::get('https://buchen.mywellness.de/api/customer-app/v1/suite-availability-filters?with_suite_type=null')
+                ->json()
+        );
 
-        return Http::get($url)->json();
+        return array_values(array_filter($filters, fn($filter) => !in_array($filter['name'], ['date', 'notice'])));
     }
 
 
@@ -33,14 +39,14 @@ class MyWellnessRepository
 
     public function getFullyAvailableDaysOfNextThreeMonths(SearchRequest $searchRequest)
     {
-        $months = collect([today(),  today()->addMonth()/*, today()->addMonths(2) */]);
+        $months = collect([today(), today()->addMonth()/*, today()->addMonths(2) */]);
 
         return $months->flatMap(function (Carbon $month) use ($searchRequest) {
             $res = $this->getAvailabilityDays($month, $searchRequest->params);
 
             $json = $res->json();
 
-            if($res->failed()) {
+            if ($res->failed()) {
 
 
                 throw new Exception('Failed to get availability days. Api returned HTTP Code ' . $res->status() . ' with message: ' . $res->body());
@@ -50,7 +56,7 @@ class MyWellnessRepository
         })
             ->map(fn($item) => ['date' => Carbon::parse($item['availability_date']), 'status' => $item['availability_status']])
             ->filter(fn($item) => $item['status'] === 1)
-            ->filter(fn ($item) => !array_key_exists('dates', $searchRequest->params) || in_array($item['date']->format('Y-m-d'), $searchRequest->params['dates']));
+            ->filter(fn($item) => !array_key_exists('dates', $searchRequest->params) || in_array($item['date']->format('Y-m-d'), $searchRequest->params['dates']));
 
     }
 
