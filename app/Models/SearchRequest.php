@@ -21,6 +21,8 @@ class SearchRequest extends Model
 
     protected $casts = [
         'params' => 'array',
+        'telegram_token' => 'encrypted',
+        'email' => 'encrypted',
         'last_check_at' => 'datetime',
     ];
 
@@ -60,4 +62,8 @@ class SearchRequest extends Model
     //
     //dd($chatId);
     //}
+    public function free_time_slots()
+    {
+        return $this->hasMany(FreeTimeSlot::class);
+    }
 }

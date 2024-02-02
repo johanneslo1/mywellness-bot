@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\SearchRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class MyWellnessRepository
 {
@@ -34,14 +36,21 @@ class MyWellnessRepository
         $months = collect([today(),  today()->addMonth()/*, today()->addMonths(2) */]);
 
         return $months->flatMap(function (Carbon $month) use ($searchRequest) {
-            $json = $this->getAvailabilityDays($month, $searchRequest->params)
-                ->json();
+            $res = $this->getAvailabilityDays($month, $searchRequest->params);
+
+            $json = $res->json();
+
+            if($res->failed()) {
+
+
+                throw new Exception('Failed to get availability days. Api returned HTTP Code ' . $res->status() . ' with message: ' . $res->body());
+            }
 
             return $json['availability_days'];
         })
             ->map(fn($item) => ['date' => Carbon::parse($item['availability_date']), 'status' => $item['availability_status']])
             ->filter(fn($item) => $item['status'] === 1)
-            ->filter(fn ($item) => in_array($item['date']->format('Y-m-d'), $searchRequest->params['dates']));
+            ->filter(fn ($item) => !array_key_exists('dates', $searchRequest->params) || in_array($item['date']->format('Y-m-d'), $searchRequest->params['dates']));
 
     }
 

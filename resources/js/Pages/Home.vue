@@ -13,9 +13,7 @@
 
                             </div>
 
-
                             <div v-for="filter in availableFilters" class="col-span-1">
-
                                 <Dropdown v-if="filter.input_type === 'select'"
                                           :multiple="filter.allow_multiple_values"
                                           v-model="form[filter.name]" :options="filter.options" option-label="title"
@@ -23,7 +21,7 @@
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <Button label="Suchauftrag erstellen"/>
+                            <Button label="Suchauftrag erstellen" type="submit"/>
                         </div>
                     </form>
                 </template>
@@ -70,6 +68,14 @@
             </Card>
         </div>
     </div>
+
+<!--    <Dialog :visible="true" modal header="Fehler" ser :style="{ width: '50rem' }" >-->
+<!--        <p>-->
+<!--            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.-->
+<!--            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+<!--        </p>-->
+<!--    </Dialog>-->
+
 </template>
 
 <script setup>
@@ -82,6 +88,8 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import {Inertia} from "@inertiajs/inertia";
 import Calendar from 'primevue/calendar';
+import {useToastWatcher} from "../Uses/UseToastWatcher.js";
+import Dialog from 'primevue/dialog';
 
 
 const props = defineProps({
@@ -106,6 +114,8 @@ function toggleSearchRequest(searchRequest, event) {
     })
     console.log(searchRequest, event);
 }
+
+useToastWatcher();
 
 
 </script>

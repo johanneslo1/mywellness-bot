@@ -16,9 +16,11 @@ use App\Http\Controllers\SearchRequestController;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::redirect('', 'start');
+Route::get('/start', [\App\Http\Controllers\HomeController::class, 'showConfigurator'])->name('start');
 
-Route::post('search-requests', [SearchRequestController::class, 'store']);
+Route::post('start', [SearchRequestController::class, 'start']);
+Route::get('search-requests/{id}', [SearchRequestController::class, 'show'])->name('search-requests.show')->middleware('signed');
 Route::post('search-requests/{id}/toggle', [SearchRequestController::class, 'toggleSearchRequest']);
 
 //require __DIR__.'/auth.php';

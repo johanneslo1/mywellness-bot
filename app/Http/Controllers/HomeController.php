@@ -11,13 +11,16 @@ use App\Presenters\SearchRequestPresenter;
 
 class HomeController extends Controller
 {
-    public function index(MyWellnessRepository $myWellnessRepository)
+    public function showConfigurator(Request $request, MyWellnessRepository $myWellnessRepository)
     {
         $filters = $myWellnessRepository->getAvailableFilters();
 
+        $step = intval($request->step) ?: 1;
 
-        return Inertia::render('Home', [
+
+        return Inertia::render('Configurator', [
             'availableFilters' => $filters,
+            'step' => $step,
             'searchRequests' => SearchRequestPresenter::collection(SearchRequest::all()),
         ]);
     }
