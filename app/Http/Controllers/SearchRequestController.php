@@ -107,6 +107,7 @@ class SearchRequestController extends Controller
 
         $searchRequest = SearchRequest::create([
             'params' => $request->filters,
+            'preferred_weekdays' => $request->prefered_weekdays,
             'email' => $request->email
         ]);
 
