@@ -24,6 +24,11 @@
     @endproduction
     </head>
     <body class="font-sans antialiased">
+
+    <div class="text-center w-full fixed top-0 py-2 bg-yellow-300">
+        Diese Seite ist ein Open-Source-Projekt und steht in keiner Verbindung zu <a href="https://mywellness.de/" target="_blank" class="text-yellow-900 underline">MyWellness.de</a>.
+    </div>
+
         @inertia
     </body>
 </html>

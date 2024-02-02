@@ -16,7 +16,7 @@ use App\Http\Controllers\SearchRequestController;
 |
 */
 
-Route::redirect('', 'start');
+Route::get('', fn () => \inertia('Home'));
 Route::get('/start', [\App\Http\Controllers\HomeController::class, 'showConfigurator'])->name('start');
 
 Route::post('start', [SearchRequestController::class, 'start']);

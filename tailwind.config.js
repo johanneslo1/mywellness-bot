@@ -3,7 +3,7 @@
 module.exports = {
     darkMode: 'class',
     important: true,
-    content: ['./**/*.html', './resources/js/**/*.{js,jsx,ts,tsx,vue}'],
+    content: ['./**/*.html', './resources/views/app.blade.php', './resources/js/**/*.{js,jsx,ts,tsx,vue}'],
     safelist: ['prose', 'prose-sm', 'm-auto'],
     plugins: [
         // require('@tailwindcss/forms'),

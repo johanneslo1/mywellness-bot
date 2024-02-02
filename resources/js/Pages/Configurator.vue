@@ -69,7 +69,7 @@ useToastWatcher();
                       {{ step === 1 ? 'E-Mail Adresse' : 'Bevorzugte Suite' }}
                   </template>
                   <template #subtitle>
-                        {{ step === 1 ? 'Du bekommst per E-Mail die verfügbaren Zeitslots zugeschickt. Daher braucht das Tool deine Mail.' : 'Stelle nun ein, an welchen Suits du interessiert bist.' }}
+                        {{ step === 1 ? 'Du bekommst per E-Mail die verfügbaren Zeitslots zugeschickt. Daher braucht der Bot deine Mail.' : 'Stelle nun ein, an welchen Suits du interessiert bist.' }}
                   </template>
                   <template #content>
                       <div v-if="step === 1">
