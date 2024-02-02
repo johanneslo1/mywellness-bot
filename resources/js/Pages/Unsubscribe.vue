@@ -39,8 +39,8 @@ useToastWatcher();
                         Tragen Sie Ihre E-Mail-Adresse ein, um keine weiteren Benachrichtigungen zu erhalten.
                     </template>
                     <template v-if="!email" #content>
-                        <label for="email" class="mb-2">Bitte geben Sie Ihre E-Mail-Adresse ein</label>
-                        <InputText class="w-full" id="email" v-model="form.email" type="email"
+                        <label for="email">Bitte geben Sie Ihre E-Mail-Adresse ein</label>
+                        <InputText class="w-full mt-2" id="email" required v-model="form.email" type="email"
                                    placeholder="E-Mail Adresse"/>
                     </template>
                     <template v-else #content>
