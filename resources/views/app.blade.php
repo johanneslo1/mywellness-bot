@@ -35,7 +35,7 @@
 </div>
 
 @if(\Illuminate\Support\Str::contains(request()->getHost(), 'johannes-lohmann.de'))
-    <div class="text-center w-full fixed bottom-0 py-2">
+    <div class="text-center w-full fixed bottom-0 py-2 z-0">
         <a href="https://johannes-lohmann.de/imprint" class="hover:underline" target="_blank">Impressum</a>
     </div>
 @endif
