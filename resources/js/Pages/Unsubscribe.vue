@@ -49,7 +49,7 @@ useToastWatcher();
 
                     <template v-if="!email" #footer>
                         <div class="flex justify-end">
-                            <Button :disabled="!form.email" type="submit" label="Benachrichtigungen abbestellen"/>
+                            <Button :disabled="!form.email" data-umami-event="Click unsubscribe" type="submit" label="Benachrichtigungen abbestellen"/>
                         </div>
                     </template>
                 </Card>

@@ -70,7 +70,7 @@ useToastWatcher();
                     </template>
                     <template #content>
                         <div v-if="step === 1">
-                            <InputText class="w-full" v-model="form.email" type="email" placeholder="E-Mail Adresse"/>
+                            <InputText    data-umami-event="Enter email" class="w-full" v-model="form.email" type="email" placeholder="E-Mail Adresse"/>
                         </div>
                         <div v-else-if="step === 2">
 
@@ -85,6 +85,8 @@ useToastWatcher();
                                         <Dropdown v-if="!filter.allow_multiple_values"
                                                   v-model="form.filters[filter.name]" :options="filter.options"
                                                   option-label="title"
+                                                  data-umami-event="Select filter"
+                                                  :data-umami-event-filter-type="filter.name"
                                                   option-value="value" :placeholder="filter.title"
                                                   class="w-full md:w-14rem"/>
 
@@ -92,6 +94,8 @@ useToastWatcher();
                                                      optionLabel="title"
                                                      option-value="value"
                                                      :placeholder="filter.title"
+                                                     data-umami-event="Select filter"
+                                                     :data-umami-event-filter-type="filter.name"
                                                      :maxSelectedLabels="8" class="w-full md:w-14rem"/>
                                     </template>
 
@@ -99,8 +103,8 @@ useToastWatcher();
                             </div>
 
                             <div class="mt-6 pt-6 border-t">
-                                <Checkbox v-model="acceptPrivacy" inputId="accept-privacy" binary />
-                                <label for="accept-privacy" class="ml-1">
+                                <Checkbox data-umami-event="Accept privacy checkbox" v-model="acceptPrivacy" inputId="accept-privacy" binary />
+                                <label data-umami-event="Accept privacy checkbox by label" for="accept-privacy" class="ml-1">
                                     Indem Sie diesen Suchauftrag erstellen, willigen Sie ein, dass Ihre E-Mail-Adresse gespeichert wird, um Sie zu benachrichtigen, sobald ein passender Termin verfügbar ist. <Link href="/unsubscribe" class="text-blue-500 hover:underline">Sie können diese Zustimmung jederzeit widerrufen.</Link>
                                 </label>
                             </div>

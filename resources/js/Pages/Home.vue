@@ -13,7 +13,8 @@
                 <h3 class="text-xl font-medium">Suchst du vergeblich nach einem verfügbaren Termin, weil alles vollständig ausgebucht ist?</h3>
             <p class="mt-3">Keine Sorge mehr! Manchmal müssen Gäste ihre Termine kurzfristig absagen, wodurch oft schnell ein Platz frei wird. Mit dem Bot wirst du sofort informiert und kannst den Termin direkt buchen.</p>
 
-            <Link href="/start" class="flex justify-center mt-6">
+            <Link href="/start"
+                  data-umami-event="Click start"  class="flex justify-center mt-6">
                 <Button  class="w-1/2 justify-center" label="Jetzt loslegen!" />
             </Link>
             </div>
@@ -32,4 +33,5 @@ html, body {
 <script setup lang="ts">
 import {Link} from "@inertiajs/inertia-vue3";
 import Button from "primevue/button";
+import InputText from "primevue/inputtext";
 </script>
