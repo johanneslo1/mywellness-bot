@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-200 h-screen flex items-center">
-        <div class="max-w-4xl mx-auto">
+        <div class="px-2 max-w-4xl mx-auto">
 
             <h1 class="text-4xl md:text-6xl font-semibold">
                 <a href="https://mywellness.de/" target="_blank">MyWellness</a> Bot</h1>
