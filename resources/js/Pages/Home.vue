@@ -10,7 +10,7 @@
 
 
             <div class="mt-12 rounded bg-gray-100 px-4 py-6">
-                <h3 class="text-xl font-medium">Suchst du vergeblich nach einem verfügbaren Termin, weil alles vollständig ausgebucht ist?</h3>
+                <h3 class="text-xl font-medium">Suchst du vergeblich nach einem freien Slot? Alles ist ausgebucht?</h3>
             <p class="mt-3">Keine Sorge mehr! Manchmal müssen Gäste ihre Termine kurzfristig absagen, wodurch oft schnell ein Platz frei wird. Mit dem Bot wirst du sofort informiert und kannst den Termin direkt buchen.</p>
 
             <Link href="/start"
