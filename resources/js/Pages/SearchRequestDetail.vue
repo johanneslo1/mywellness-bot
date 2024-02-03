@@ -24,10 +24,6 @@ const props = defineProps<{
     <div class="bg-gray-200 min-h-screen">
         <div class="max-w-2xl mx-auto">
             <form @submit.prevent="submit">
-                <Message :closable="false"><strong>Tipp:</strong> Speichere dir die URL ab, dann kannst jederzeit deinen
-                    Suchauftrag einfach verwalten.
-                </Message>
-
                 <Message v-if="showSuccessMessage" severity="success">Erfolgreich! Du hast deinen Suchauftrag
                     erstellt.
                 </Message>
