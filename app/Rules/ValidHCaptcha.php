@@ -41,9 +41,6 @@ class ValidHCaptcha implements Rule
 
         if($res->status() === 200) {
             $body = $res->json();
-
-            dd($body);
-
             if($body['success'] === true) {
                 return true;
             }
