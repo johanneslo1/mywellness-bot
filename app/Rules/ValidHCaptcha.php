@@ -38,12 +38,11 @@ class ValidHCaptcha implements Rule
             'response' => $value,
         ]);
 
-        if($res->failed()) {
-            dd($res->body());
-        }
 
         if($res->status() === 200) {
             $body = $res->json();
+
+            dd($body);
 
             if($body['success'] === true) {
                 return true;
