@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('search-requests:check')->hourly();
+        $schedule->command(CheckSearchRequestsCommand::class)->everyMinute();
     }
 
     /**

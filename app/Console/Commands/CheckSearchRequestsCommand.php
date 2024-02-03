@@ -32,14 +32,14 @@ class CheckSearchRequestsCommand extends Command
     public function handle(MyWellnessRepository $myWellnessRepository)
     {
         SearchRequest::query()
-//            ->where(fn(Builder $query) => $query
-//                ->whereDate('last_check_at', '<', now()->subHour())
-//                ->orWhereNull('last_check_at')
-//            )
-//            ->where(fn(Builder $query) => $query
-//                ->whereDate('ends_at', '>', now())
-//                ->orWhereNull('ends_at')
-//            )
+            ->where(fn(Builder $query) => $query
+                ->whereDate('last_check_at', '<', now()->subHour())
+                ->orWhereNull('last_check_at')
+            )
+            ->where(fn(Builder $query) => $query
+                ->whereDate('ends_at', '>', now())
+                ->orWhereNull('ends_at')
+            )
             ->get()
             ->each(function (SearchRequest $searchRequest) use ($myWellnessRepository) {
                 $searchRequest->last_check_at = now();
