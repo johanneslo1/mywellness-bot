@@ -50,7 +50,7 @@ class CheckSearchRequestsCommand extends Command
 
                 // Prüfe ob einer der Tage innerhalb der nächsten Woche liegt.
                 $daysInCommingWeek = $days
-                    ->filter(fn($item) => in_array($item['date']->dayOfWeek, $searchRequest->preferred_weekdays))
+                    ->filter(fn($item) => $searchRequest->preferred_weekdays && in_array($item['date']->dayOfWeek, $searchRequest->preferred_weekdays))
 //                    ->filter(fn($item) => $item['date']->isBetween(now(), now()->addWeeks(2)))
                     ->filter()
                     ->map(fn($item) => [
