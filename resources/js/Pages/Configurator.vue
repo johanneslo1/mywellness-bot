@@ -31,7 +31,7 @@ const form = useForm({
         date: null
     },
     email: '',
-    prefered_weekdays: []
+    prefered_weekdays: [],
     h_captcha_response: '',
 
 });
