@@ -52,8 +52,8 @@ function executeCaptcha() {
 function submit(skipCaptcha: boolean = false, hCatpchaToken: string = '') {
 
     if (props.step === 2 && !skipCaptcha) {
-        executeCaptcha();
-        return;
+        // executeCaptcha();
+        // return;
     }
 
     if (hCatpchaToken !== '')

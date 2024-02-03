@@ -73,7 +73,7 @@ class SearchRequestController extends Controller
         $validationRules = [
             'prefered_weekdays' => ['required', 'array'],
             'prefered_weekdays.*' => ['required', 'integer', 'min:1', 'max:7'],
-            'h_captcha_response' => ['required', new ValidHCaptcha()],
+//            'h_captcha_response' => ['required', new ValidHCaptcha()],
         ];
 
 
