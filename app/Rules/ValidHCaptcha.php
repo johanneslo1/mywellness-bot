@@ -38,6 +38,9 @@ class ValidHCaptcha implements Rule
             'response' => $value,
         ]);
 
+        if($res->failed()) {
+            dd($res->body());
+        }
 
         if($res->status() === 200) {
             $body = $res->json();
@@ -59,6 +62,6 @@ class ValidHCaptcha implements Rule
      */
     public function message()
     {
-        return 'Captcha failed';
+        return 'Das Captcha konnte nicht verifiziert werden. Bitte versuchen Sie es erneut.';
     }
 }
