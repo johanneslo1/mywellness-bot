@@ -12,13 +12,13 @@ import {Link} from "@inertiajs/inertia-vue3";
 import {useToastWatcher} from "../Uses/UseToastWatcher";
 import Checkbox from 'primevue/checkbox';
 import {Inertia} from "@inertiajs/inertia";
-
-
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 
 const props = withDefaults(defineProps<{
     availableFilters: [],
     step: number,
+    hCaptchaSiteKey: string
 }>(), {step: 1});
 
 
@@ -35,13 +35,25 @@ const form = useForm({
 
 });
 
-onMounted(() =>  {
-    if(props.step === 2 && !form.email) {
-       Inertia.get('/start')
+onMounted(() => {
+    if (props.step === 2 && !form.email) {
+        Inertia.get('/start')
     }
 })
 
-function submit() {
+
+const hCaptcha = ref()
+function executeCaptcha() {
+    hCaptcha.value?.execute();
+}
+
+function submit(skipCaptcha: boolean = false) {
+
+    console.log(skipCaptcha);
+    if (props.step === 2 && !skipCaptcha) {
+        executeCaptcha();
+        return;
+    }
 
     form.post('/start?step=' + props.step, {
         replace: true,
@@ -51,7 +63,6 @@ function submit() {
 }
 
 
-
 const acceptPrivacy = ref(false);
 useToastWatcher();
 </script>
@@ -59,7 +70,7 @@ useToastWatcher();
 <template>
     <div class="bg-gray-200 h-screen flex items-center">
         <div class="max-w-2xl mx-auto">
-            <form @submit.prevent="submit">
+            <form id="ConfiguratorForm" @submit.prevent="submit(false)">
                 <Card>
                     <template #title>
                         {{ step === 1 ? 'Deine E-Mail Adresse' : 'Filter auswählen' }}
@@ -73,23 +84,24 @@ useToastWatcher();
 
                         <Message v-if="$page.props.errors" severity="error">
 
-                        <ul class="list-disc pl-8">
-                            <li v-for="field in $page.props.errors">
-                                {{ field[0] }}
-                            </li>
-                        </ul>
+                            <ul class="list-disc pl-8">
+                                <li v-for="field in $page.props.errors">
+                                    {{ field[0] }}
+                                </li>
+                            </ul>
                         </Message>
 
                         <div v-if="step === 1">
-                            <InputText    data-umami-event="Enter email" class="w-full" v-model="form.email" type="email" placeholder="E-Mail Adresse"/>
+                            <InputText data-umami-event="Enter email" class="w-full" v-model="form.email" type="email"
+                                       placeholder="E-Mail Adresse"/>
                         </div>
                         <div v-else-if="step === 2">
 
                             <div class="grid grid-cols-3 gap-6">
-<!--                                <div class="col-span-1">-->
-<!--                                    &lt;!&ndash;                                  <Calendar v-model="form.filters.date" placeholder="Bevorzugte Tage" class="w-full" date-format="dd.mm.yy" selectionMode="multiple" :manualInput="false" />&ndash;&gt;-->
+                                <!--                                <div class="col-span-1">-->
+                                <!--                                    &lt;!&ndash;                                  <Calendar v-model="form.filters.date" placeholder="Bevorzugte Tage" class="w-full" date-format="dd.mm.yy" selectionMode="multiple" :manualInput="false" />&ndash;&gt;-->
 
-<!--                                </div>-->
+                                <!--                                </div>-->
 
                                 <div v-for="filter in availableFilters" class="col-span-1">
                                     <label :for="filter.name">{{ filter.title }}</label>
@@ -102,7 +114,8 @@ useToastWatcher();
                                                   option-value="value" :placeholder="filter.title"
                                                   class="w-full md:w-14rem mt-1"/>
 
-                                        <MultiSelect v-else v-model="form.filters[filter.name]" :options="filter.options"
+                                        <MultiSelect v-else v-model="form.filters[filter.name]"
+                                                     :options="filter.options"
                                                      optionLabel="title"
                                                      option-value="value"
                                                      :placeholder="filter.title"
@@ -127,11 +140,21 @@ useToastWatcher();
                             </div>
 
                             <div class="mt-6 pt-6 border-t">
-                                <Checkbox data-umami-event="Accept privacy checkbox" v-model="acceptPrivacy" inputId="accept-privacy" binary />
-                                <label data-umami-event="Accept privacy checkbox by label" for="accept-privacy" class="ml-1">
-                                    Indem Sie diesen Suchauftrag erstellen, willigen Sie ein, dass Ihre E-Mail-Adresse gespeichert wird, um Sie zu benachrichtigen, sobald ein passender Termin verfügbar ist. <Link href="/unsubscribe" class="text-blue-500 hover:underline">Sie können diese Zustimmung jederzeit widerrufen.</Link>
+                                <Checkbox data-umami-event="Accept privacy checkbox" v-model="acceptPrivacy"
+                                          inputId="accept-privacy" binary/>
+                                <label data-umami-event="Accept privacy checkbox by label" for="accept-privacy"
+                                       class="ml-1">
+                                    Indem Sie diesen Suchauftrag erstellen, willigen Sie ein, dass Ihre E-Mail-Adresse
+                                    gespeichert wird, um Sie zu benachrichtigen, sobald ein passender Termin verfügbar
+                                    ist.
+                                    <Link href="/unsubscribe" class="text-blue-500 hover:underline">Sie können diese
+                                        Zustimmung jederzeit widerrufen.
+                                    </Link>
                                 </label>
                             </div>
+
+                            <vue-hcaptcha ref="hCaptcha" @verify="submit(true)" size="invisible" :sitekey="hCaptchaSiteKey"></vue-hcaptcha>
+
 
                         </div>
 
@@ -139,7 +162,9 @@ useToastWatcher();
 
                     <template #footer>
                         <div class="flex justify-end">
-                            <Button type="submit" :disabled="step === 1 && !form.email || step === 2 && !acceptPrivacy" :label="step === 1 ? 'Weiter' : 'Suchauftrag erstellen'"/>
+                            <Button v-if="step === 1" type="submit"
+                                    :disabled="!form.email" label="Weiter"/>
+                            <Button v-else type="submit" :disabled="!acceptPrivacy"  label="Suchauftrag erstellen"/>
                         </div>
                     </template>
                 </Card>

@@ -36,4 +36,9 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE')
     ],
 
+    'hcaptcha' => [
+        'enabled' => (bool) env('HCAPTCHA_ENABLED', true), // 'true' or 'false
+        'sitekey' => env('HCAPTCHA_SITEKEY', 'YOUR SITE KEY HERE'),
+        'secret' => env('HCAPTCHA_SECRET', 'YOUR SECRET')
+    ]
 ];

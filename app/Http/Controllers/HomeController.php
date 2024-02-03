@@ -21,6 +21,7 @@ class HomeController extends Controller
         return Inertia::render('Configurator', [
             'availableFilters' => $filters,
             'step' => $step,
+            'hCaptchaSiteKey' => config('services.hcaptcha.sitekey'),
             'searchRequests' => SearchRequestPresenter::collection(SearchRequest::all()),
         ]);
     }

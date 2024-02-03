@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Rules\ValidHCaptcha;
 use App\Models\SearchRequest;
 use Illuminate\Support\Facades\URL;
 use App\Presenters\FreeTimeSlotPresenter;
@@ -32,7 +33,7 @@ class SearchRequestController extends Controller
     }
 
 
-    public function start(Request $request, MyWellnessRepository $myWellnessRepository)
+    public function store(Request $request, MyWellnessRepository $myWellnessRepository)
     {
 
         $step = intval($request->step) ?: 1;
@@ -50,21 +51,6 @@ class SearchRequestController extends Controller
 
 
 
-    public function toggleSearchRequest(Request $request, int $id)
-    {
-
-        $request->validate([
-            'acitve' => ['required', 'boolean'],
-        ]);
-
-        $searchRequest = SearchRequest::find($id);
-
-        $searchRequest->update([
-            'active' => $request->active,
-        ]);
-
-        return redirect()->back()->with('success', 'Erfolgreich!');
-    }
 
 
 
@@ -87,6 +73,7 @@ class SearchRequestController extends Controller
         $validationRules = [
             'prefered_weekdays' => ['required', 'array'],
             'prefered_weekdays.*' => ['required', 'integer', 'min:1', 'max:7'],
+            'h-captcha-response' => ['required', new ValidHCaptcha()],
         ];
 
 

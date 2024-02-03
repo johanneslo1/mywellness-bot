@@ -38,10 +38,16 @@
     @inertia
 </div>
 
-@if(\Illuminate\Support\Str::contains(request()->getHost(), 'johannes-lohmann.de'))
-    <div class="text-center w-full fixed bottom-0 py-2 z-0">
-        <a href="https://johannes-lohmann.de/imprint" class="hover:underline" target="_blank">Impressum</a>
-    </div>
-@endif
+
+<div class="text-center" style="padding: 1rem 0">
+    Diese Website ist durch hCaptcha geschützt und es gelten dessen
+    <a href="https://www.hcaptcha.com/privacy" class="text-blue-600 hover:underline">Datenschutzbestimmungen</a> und
+    <a href="https://www.hcaptcha.com/terms" class="text-blue-600 hover:underline">Nutzungsbedingungen</a>.
+
+        <br>
+    <br>
+            <a href="https://johannes-lohmann.de/imprint" class="text-blue-600 hover:underline" target="_blank">Impressum</a>
+
+</div>
 </body>
 </html>
