@@ -32,6 +32,7 @@ const form = useForm({
     },
     email: '',
     prefered_weekdays: []
+    h_captcha_response: '',
 
 });
 
@@ -43,17 +44,20 @@ onMounted(() => {
 
 
 const hCaptcha = ref()
+
 function executeCaptcha() {
     hCaptcha.value?.execute();
 }
 
-function submit(skipCaptcha: boolean = false) {
+function submit(skipCaptcha: boolean = false, hCatpchaToken: string = '') {
 
-    console.log(skipCaptcha);
     if (props.step === 2 && !skipCaptcha) {
         executeCaptcha();
         return;
     }
+
+    if (hCatpchaToken !== '')
+        form.h_captcha_response = hCatpchaToken;
 
     form.post('/start?step=' + props.step, {
         replace: true,
@@ -153,7 +157,8 @@ useToastWatcher();
                                 </label>
                             </div>
 
-                            <vue-hcaptcha ref="hCaptcha" @verify="submit(true)" size="invisible" :sitekey="hCaptchaSiteKey"></vue-hcaptcha>
+                            <vue-hcaptcha ref="hCaptcha" @verify="submit(true, $event)" size="invisible"
+                                          :sitekey="hCaptchaSiteKey"></vue-hcaptcha>
 
 
                         </div>
@@ -164,7 +169,7 @@ useToastWatcher();
                         <div class="flex justify-end">
                             <Button v-if="step === 1" type="submit"
                                     :disabled="!form.email" label="Weiter"/>
-                            <Button v-else type="submit" :disabled="!acceptPrivacy"  label="Suchauftrag erstellen"/>
+                            <Button v-else type="submit" :disabled="!acceptPrivacy" label="Suchauftrag erstellen"/>
                         </div>
                     </template>
                 </Card>
