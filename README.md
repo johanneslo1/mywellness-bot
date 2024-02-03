@@ -7,6 +7,7 @@ Der **myWellness Bot** ist ein Laravel-Projekt, das darauf abzielt, Nutzern dabe
 - Überwachung der Verfügbarkeit von Zeitslots bei myWellness in Echtzeit.
 - Benachrichtigung der Nutzer über Telegram, wenn ein passender Slot frei wird.
 
+
 ## Systemvoraussetzungen
 
 - PHP >= 8.0.2
@@ -45,11 +46,6 @@ php artisan migrate
 npm install && npm run build
 ```
 
-## Konfiguration
-
-- Trage deine Telegram Bot Token und andere notwendige Informationen in die `.env` Datei ein.
-- Setze den Webhook für deinen Telegram Bot.
-
 ## Benutzung
 
 - Starte den Laravel Scheduler, um die Verfügbarkeit von Slots zu überwachen:
@@ -59,4 +55,4 @@ php artisan schedule:work
 
 ### Disclaimer
 
-Dieser Bot und das dazugehörige Projekt sind unabhängig und stehen in keiner Weise in Verbindung mit der offiziellen myWellness-Website oder den Betreibern von myWellness. Die Nutzung dieses Bots geschieht auf eigene Gefahr und die Entwickler übernehmen keine Haftung für etwaige Probleme oder Schäden, die durch die Nutzung dieses Bots entstehen könnten. Bitte stellen Sie sicher, dass Sie die Nutzungsbedingungen und Datenschutzrichtlinien von myWellness sowie die lokalen Gesetze und Vorschriften bezüglich der Nutzung solcher Bots verstehen und einhalten.
+Dieser Bot und das dazugehörige Projekt sind unabhängig und stehen in keiner Weise in Verbindung mit der offiziellen myWellness.de Website oder den Betreibern von myWellness. Die Nutzung dieses Bots geschieht auf eigene Gefahr und die Entwickler übernehmen keine Haftung für etwaige Probleme oder Schäden, die durch die Nutzung dieses Bots entstehen könnten. Bitte stellen Sie sicher, dass Sie die Nutzungsbedingungen und Datenschutzrichtlinien von myWellness sowie die lokalen Gesetze und Vorschriften bezüglich der Nutzung solcher Bots verstehen und einhalten.
