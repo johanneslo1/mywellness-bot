@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\SearchRequestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\SearchRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +21,3 @@ Route::get('/start', [\App\Http\Controllers\HomeController::class, 'showConfigur
 Route::post('start', [SearchRequestController::class, 'store']);
 Route::get('search-requests/{id}', [SearchRequestController::class, 'show'])->name('search-requests.show')->middleware('signed');
 Route::get('unsubscribe', [SearchRequestController::class, 'destroyByEmail'])->name('unsubscribe')->middleware('throttle:5,1');
-
