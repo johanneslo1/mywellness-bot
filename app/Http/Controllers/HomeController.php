@@ -23,4 +23,7 @@ class HomeController extends Controller
             'searchRequests'   => SearchRequestPresenter::collection(SearchRequest::all()),
         ]);
     }
+
+
+    public function test_Test_hallo(){}
 }
