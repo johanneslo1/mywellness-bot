@@ -2,13 +2,11 @@
 
 namespace App\Notifications;
 
-use Carbon\Carbon;
-use Illuminate\Bus\Queueable;
 use App\Models\SearchRequest;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Collection;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class SearchRequestWasSuccessfulNotification extends Notification
@@ -25,8 +23,6 @@ class SearchRequestWasSuccessfulNotification extends Notification
         //
     }
 
-
-
     public function via($notifiable)
     {
         return ['mail']; // 'telegram'
@@ -34,40 +30,34 @@ class SearchRequestWasSuccessfulNotification extends Notification
 
     public function toTelegram($notifiable): TelegramMessage
     {
-
         $message = TelegramMessage::create()
             // Optional recipient user id.
             ->to($notifiable->routeNotificationForTelegram())
             // Markdown supported.
             ->content("Ein passender Zeitslot wurde gefunden: \n\n");
 
-        foreach($this->daysInCommingWeek as $day) {
+        foreach ($this->daysInCommingWeek as $day) {
             $text = $day['date']->format('d.m.Y (D)');
             $message->line($text);
         }
 
         return $message->button('Buchen', $this->daysInCommingWeek[0]['url']);
-
-
     }
-
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Ein Tag für deine Auszeit ist gefunden!')
             ->markdown('emails.search-request-was-successful', [
                 'daysInCommingWeek' => $this->daysInCommingWeek,
-                'searchRequest' => $this->searchRequest
+                'searchRequest'     => $this->searchRequest,
             ]);
     }
-
-
 
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed   $notifiable
+     * @param mixed $notifiable
      *
      * @return array
      */

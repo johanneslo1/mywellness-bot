@@ -2,39 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property \Illuminate\Support\Carbon|null $last_check_at
  * @property \Illuminate\Support\Carbon|null $ends_at
  * @property array                           $params
  * @property string                          $email
- * @property boolean                         $active
+ * @property bool                            $active
  */
 class SearchRequest extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     protected $guarded = [];
 
     protected $casts = [
-        'params' => 'array',
+        'params'             => 'array',
         'preferred_weekdays' => 'array',
-        'telegram_token' => 'encrypted',
-//        'email' => 'encrypted',
+        'telegram_token'     => 'encrypted',
+        //        'email' => 'encrypted',
         'last_check_at' => 'datetime',
     ];
-
-
 
     public function routeNotificationForMail(): string
     {
         return $this->email;
     }
-
-
 
     public function routeNotificationForTelegram()
     {

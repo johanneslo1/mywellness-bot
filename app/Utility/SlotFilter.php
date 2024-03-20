@@ -4,9 +4,9 @@ namespace App\Utility;
 
 class SlotFilter
 {
-
-    public function __construct(protected array $params) { }
-
+    public function __construct(protected array $params)
+    {
+    }
 
     public function getName(): string
     {
@@ -41,6 +41,4 @@ class SlotFilter
             ? $this->params['maximum_values_allowed']
             : 1;
     }
-
-
 }
