@@ -24,6 +24,7 @@ class HomeController extends Controller
         ]);
     }
 
-
-    public function test_Test_hallo(){}
+    public function test_Test_hallo()
+    {
+    }
 }
